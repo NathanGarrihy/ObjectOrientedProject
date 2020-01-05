@@ -11,7 +11,7 @@ public class Runner {
 	private static String query;
 	private static int choice =4;
 	private static int nGram = 3;
-	private static int nextNGram;
+	//private static int nextNGram;
 
 	public static void main(String[] args) throws Throwable {
 		//	Starting Menu and file choice for user
@@ -21,30 +21,32 @@ public class Runner {
 		menu.showMenu();
 		
 		do {
-			nextNGram = nGram + 1;
+			//nextNGram = nGram + 1;
 			if (choice == 4) {	//	Compares the files and returns the result
-		Parser p = new Parser(getWili(), nGram);
-		Parser p2 = new Parser(getWili(), nextNGram);
+				System.out.println("checking for kmer of : " + nGram);
+				System.out.println("--------------------------------------------");
+				System.out.println("Determining language...");
+				Parser p = new Parser(getWili(), nGram);
+			//Parser p2 = new Parser(getWili(), nextNGram);
 
-		Database db = new Database();
-		Database db2 = new Database();
-		p.setDb(db);
-		p2.setDb(db2);
+				Database db = new Database();
+				//Database db2 = new Database();
+				p.setDb(db);
+			//p2.setDb(db2);
 		
-		Thread t = new Thread(p);
-		Thread t2 = new Thread( p2);
-		t.start();
-		t2.start();
-		t.join();
-		t2.join();
+				Thread t = new Thread(p);
+			//Thread t2 = new Thread( p2);
+				t.start();
+			//t2.start();
+				t.join();
+			//t2.join();
 		
 		db.resize(300);
-		db2.resize(300);
-		
-		System.out.println("Checking language with kmer of " + nGram);
+		//db2.resize(300);
+	
 		p.analyseQuery(getQuery());
-		System.out.println("Checking language with kmer of " + nextNGram);
-		p2.analyseQuery(getQuery());
+		/*System.out.println("Checking language with kmer of " + nextNGram);
+		p2.analyseQuery(getQuery());*/
 			}
 			//	Menu of Options for UI
 			menu.choiceMenu();
@@ -63,15 +65,15 @@ public class Runner {
 				setKmer();
 			}
 			else if (choice == 4) {
-				//	Change Wili File
+				//	Compares the files and returns the result
 				choice = 4;
 			}
-			else {
+			else if (choice != -1) {
 				System.out.println("Ïnvalid choice, please try again");
 			}
 			
 		}while(choice != -1);
-		
+		System.out.println("Goodbye!");
 	}	//	end of main
 	
 	//	Set Wili File.
@@ -130,9 +132,10 @@ public class Runner {
 
 	//	Set Kmer
 	public static void setKmer() {
-		int i=0;
-		while (i <2 && i > 6) {
-		System.out.println("Enter new kMer number: (2-6)");
+		int i=1;
+		
+		while (i <2 || i > 6) {
+		System.out.println("Enter new kMer number(2-6) - 3 is reccomended for optimum results");
 		i = console.nextInt();
 		}
 		nGram = i;
